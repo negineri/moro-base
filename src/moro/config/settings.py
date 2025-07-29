@@ -14,6 +14,7 @@ import tomli
 from injector import Binder
 from pydantic import BaseModel, Field
 
+from moro.modules.assets.config import AssetsConfig
 from moro.modules.common import CommonConfig
 
 logger = logging.getLogger(__name__)
@@ -35,6 +36,7 @@ class ConfigRepository(BaseModel):
     """
 
     common: CommonConfig = Field(default_factory=CommonConfig)  # Common configuration instance
+    assets: AssetsConfig = Field(default_factory=AssetsConfig)  # Assets configuration instance
 
     @classmethod
     def create(
@@ -62,6 +64,7 @@ class ConfigRepository(BaseModel):
         def configure(binder: Binder) -> None:
             binder.bind(ConfigRepository, to=self)
             binder.bind(CommonConfig, to=self.common)
+            binder.bind(AssetsConfig, to=self.assets)
 
         return configure
 

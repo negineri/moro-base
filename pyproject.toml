@@ -1,0 +1,122 @@
+[project]
+name = "moro"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [{ name = "negineri", email = "negineri@sfc.wide.ad.jp" }]
+requires-python = ">=3.9"
+dependencies = [
+    "click>=8.1.8",
+    "httpx>=0.25.0",
+    "injector>=0.22.0",
+    "pathvalidate>=3.3.1",
+    "platformdirs>=4.3.7",
+    "pydantic>=2.11.3",
+    "python-dotenv>=1.1.0",
+    "tomli>=2.2.1",
+    "tomli-w>=1.2.0",
+]
+
+[project.scripts]
+moro = "moro.cli.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.mypy]
+strict = true
+exclude = [
+    "tests/", # Optional: Skip if using stubs/mocks
+    "build/",
+    "dist/",
+    "docs/",
+    "temp/",
+]
+plugins = [
+    # "pydantic.mypy"  # If you're using pydantic
+]
+
+[tool.ruff]
+line-length = 100
+fix = true
+exclude = ["build", "dist", ".venv", "tests/mocks"]
+src = ["app", "src"]
+unsafe-fixes = false
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle (errors)
+    "F",   # pyflakes
+    "B",   # flake8-bugbear
+    "I",   # isort
+    "UP",  # pyupgrade
+    "S",   # flake8-bandit (security)
+    "C4",  # flake8-comprehensions
+    "N",   # pep8-naming
+    "D",   # pydocstyle
+    "T20", # flake8-print (disallow print)
+    "RET", # flake8-return
+    "A",   # flake8-builtins
+    "RUF", # Ruff-specific rules
+]
+ignore = [
+    "D211", # D211 conflicts with D203
+    "D212", # D212 conflicts with D213
+    # "D100",  # Missing docstring in public module
+    # "D104",  # Missing docstring in public package
+    "D107",   # Missing docstring in __init__
+    "RUF002", # 日本語コメントの際に邪魔
+    "RUF003", # 日本語コメントの際に邪魔
+    "D415",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Allow test functions to have print statements or less strict docstring rules
+"tests/**/*.py" = ["S101", "D101", "D102", "D103"]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.bumpversion]
+current_version = "0.1.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+ignore_missing_files = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+moveable_tags = []
+commit_args = "--no-verify"
+setup_hooks = []
+pre_commit_hooks = []
+post_commit_hooks = []
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "bump-my-version>=1.1.2",
+    "mypy>=1.15.0",
+    "polyfactory>=2.18.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-mock>=3.14.1",
+    "ruff>=0.11.4",
+    "tox>=4.25.0",
+    "types-pyyaml>=6.0.12.20250402",
+]
+
+[tool.pytest.ini_options]
+addopts = "-vv --tb=short -s"
+pythonpath = ["src"]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

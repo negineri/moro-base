@@ -6,10 +6,10 @@ from logging.config import dictConfig
 import click
 
 from moro.cli._utils import AliasedGroup
+from moro.cli.assets import assets
 from moro.cli.config import config
 from moro.cli.example import example
 from moro.config.settings import ConfigRepository
-from moro.modules.assets.cli.assets import assets
 
 logger = getLogger(__name__)
 

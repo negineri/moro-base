@@ -1,1 +1,0 @@
-"""Assets CLI layer."""

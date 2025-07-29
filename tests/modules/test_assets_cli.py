@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from click.testing import CliRunner
 
-from moro.modules.assets.cli.assets import assets
+from moro.cli.assets import assets
 from moro.modules.assets.domain.entity import Asset
 from moro.modules.assets.domain.value_objects import (
     AssetId,
@@ -31,7 +31,7 @@ class TestAssetsCLI:
             location=Location(value="Tokyo-DataCenter-Rack01"),
         )
 
-        with patch("moro.modules.assets.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
             mock_usecase = AsyncMock()
             mock_usecase.search_by_id.return_value = [mock_asset]
             mock_usecase_class.return_value = mock_usecase
@@ -66,7 +66,7 @@ class TestAssetsCLI:
             ),
         ]
 
-        with patch("moro.modules.assets.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
             mock_usecase = AsyncMock()
             mock_usecase.search_by_model_name.return_value = mock_assets
             mock_usecase_class.return_value = mock_usecase
@@ -92,7 +92,7 @@ class TestAssetsCLI:
             location=Location(value=location),
         )
 
-        with patch("moro.modules.assets.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
             mock_usecase = AsyncMock()
             mock_usecase.search_by_location.return_value = [mock_asset]
             mock_usecase_class.return_value = mock_usecase
@@ -108,7 +108,7 @@ class TestAssetsCLI:
         """検索結果が0件の場合の出力確認"""
         runner = CliRunner()
 
-        with patch("moro.modules.assets.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
             mock_usecase = AsyncMock()
             mock_usecase.search_by_id.return_value = []
             mock_usecase_class.return_value = mock_usecase
@@ -126,7 +126,7 @@ class TestAssetsCLI:
         """検索エラー時の処理確認"""
         runner = CliRunner()
 
-        with patch("moro.modules.assets.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
             mock_usecase = AsyncMock()
             mock_usecase.search_by_id.return_value = None
             mock_usecase_class.return_value = mock_usecase
@@ -150,7 +150,7 @@ class TestAssetsCLI:
             location=Location(value="Tokyo-DataCenter-Rack01"),
         )
 
-        with patch("moro.modules.assets.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
             mock_usecase = AsyncMock()
             mock_usecase.search_by_id.return_value = [mock_asset]
             mock_usecase_class.return_value = mock_usecase
@@ -175,7 +175,7 @@ class TestAssetsCLI:
             location=Location(value="Tokyo-DataCenter-Rack01"),
         )
 
-        with patch("moro.modules.assets.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
             mock_usecase = AsyncMock()
             mock_usecase.search_by_id.return_value = [mock_asset]
             mock_usecase_class.return_value = mock_usecase

@@ -9,6 +9,7 @@ from moro.cli._utils import AliasedGroup
 from moro.cli.config import config
 from moro.cli.example import example
 from moro.config.settings import ConfigRepository
+from moro.modules.assets.cli.assets import assets
 
 logger = getLogger(__name__)
 
@@ -25,3 +26,4 @@ def cli() -> None:
 
 cli.add_command(config)
 cli.add_command(example)
+cli.add_command(assets)

@@ -5,12 +5,15 @@ from typing import Callable, TypeVar
 from injector import Binder, Injector
 
 from moro.config.settings import ConfigRepository
+from moro.modules.assets.domain.repository import AssetRepository
+from moro.modules.assets.infrastructure.graphql_client import GraphQLAssetRepository
 
 _T = TypeVar("_T")
 
 
 def configure(binder: Binder) -> None:
     """Configure the dependency injection container."""
+    binder.bind(AssetRepository, to=GraphQLAssetRepository)  # type: ignore[type-abstract]
 
 
 def create_injector(config: ConfigRepository) -> Injector:

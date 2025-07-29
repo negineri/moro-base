@@ -15,7 +15,6 @@ class TestAssetsConfig:
 
         assert config.api_base_url == "http://localhost:8000"
         assert config.bearer_token == ""
-        assert config.protocol == "rest"
         assert config.timeout == 30
         assert config.retry_count == 3
 
@@ -24,21 +23,14 @@ class TestAssetsConfig:
         config = AssetsConfig(
             api_base_url="https://api.example.com",
             bearer_token="test-token-12345",  # noqa: S106
-            protocol="graphql",
             timeout=60,
             retry_count=5,
         )
 
         assert config.api_base_url == "https://api.example.com"
         assert config.bearer_token == "test-token-12345"  # noqa: S105
-        assert config.protocol == "graphql"
         assert config.timeout == 60
         assert config.retry_count == 5
-
-    def test_assets_config_無効なプロトコル(self) -> None:
-        """無効なプロトコルで作成が失敗することを確認"""
-        with pytest.raises(ValidationError):
-            AssetsConfig(protocol="invalid-protocol")  # type: ignore[arg-type]
 
     def test_assets_config_無効なタイムアウト_負の値(self) -> None:
         """負のタイムアウト値で作成が失敗することを確認"""

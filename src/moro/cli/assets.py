@@ -8,11 +8,7 @@ import click
 
 from moro.config.settings import ConfigRepository
 from moro.dependencies.container import create_injector
-from moro.modules.assets.config import AssetsConfig
 from moro.modules.assets.domain.entity import Asset
-from moro.modules.assets.domain.repository import AssetRepository
-from moro.modules.assets.infrastructure.graphql_client import GraphQLAssetRepository
-from moro.modules.assets.infrastructure.rest_client import RestAssetRepository
 from moro.modules.assets.usecase import AssetSearchUseCase
 
 
@@ -58,17 +54,9 @@ def search(
         # Setup dependency injection
         config_repo = ConfigRepository.create()
         injector = create_injector(config_repo)
-        assets_config = injector.get(AssetsConfig)
-
-        # Create repository based on protocol
-        repository: AssetRepository
-        if assets_config.protocol == "rest":
-            repository = RestAssetRepository(assets_config)
-        else:  # graphql
-            repository = GraphQLAssetRepository(assets_config)
 
         # Create use case
-        usecase = AssetSearchUseCase(repository)
+        usecase = injector.get(AssetSearchUseCase)
 
         # Execute search
         if asset_id:

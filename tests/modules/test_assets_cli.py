@@ -31,10 +31,14 @@ class TestAssetsCLI:
             location=Location(value="Tokyo-DataCenter-Rack01"),
         )
 
-        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with (
+            patch("moro.cli.assets.create_injector") as mock_create_injector,
+        ):
+            mock_injector = mock_create_injector.return_value
             mock_usecase = AsyncMock()
+            mock_injector.get.return_value = mock_usecase
+
             mock_usecase.search_by_id.return_value = [mock_asset]
-            mock_usecase_class.return_value = mock_usecase
 
             result = runner.invoke(assets, ["search", "--id", asset_id])
 
@@ -66,10 +70,14 @@ class TestAssetsCLI:
             ),
         ]
 
-        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with (
+            patch("moro.cli.assets.create_injector") as mock_create_injector,
+        ):
+            mock_injector = mock_create_injector.return_value
             mock_usecase = AsyncMock()
+            mock_injector.get.return_value = mock_usecase
+
             mock_usecase.search_by_model_name.return_value = mock_assets
-            mock_usecase_class.return_value = mock_usecase
 
             result = runner.invoke(assets, ["search", "--model", model_name])
 
@@ -92,10 +100,14 @@ class TestAssetsCLI:
             location=Location(value=location),
         )
 
-        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with (
+            patch("moro.cli.assets.create_injector") as mock_create_injector,
+        ):
+            mock_injector = mock_create_injector.return_value
             mock_usecase = AsyncMock()
+            mock_injector.get.return_value = mock_usecase
+
             mock_usecase.search_by_location.return_value = [mock_asset]
-            mock_usecase_class.return_value = mock_usecase
 
             result = runner.invoke(assets, ["search", "--location", location])
 
@@ -108,10 +120,14 @@ class TestAssetsCLI:
         """検索結果が0件の場合の出力確認"""
         runner = CliRunner()
 
-        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with (
+            patch("moro.cli.assets.create_injector") as mock_create_injector,
+        ):
+            mock_injector = mock_create_injector.return_value
             mock_usecase = AsyncMock()
+            mock_injector.get.return_value = mock_usecase
+
             mock_usecase.search_by_id.return_value = []
-            mock_usecase_class.return_value = mock_usecase
 
             result = runner.invoke(assets, ["search", "--id", str(uuid4())])
 
@@ -126,10 +142,14 @@ class TestAssetsCLI:
         """検索エラー時の処理確認"""
         runner = CliRunner()
 
-        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with (
+            patch("moro.cli.assets.create_injector") as mock_create_injector,
+        ):
+            mock_injector = mock_create_injector.return_value
             mock_usecase = AsyncMock()
+            mock_injector.get.return_value = mock_usecase
+
             mock_usecase.search_by_id.return_value = None
-            mock_usecase_class.return_value = mock_usecase
 
             result = runner.invoke(assets, ["search", "--id", str(uuid4())])
 
@@ -150,10 +170,14 @@ class TestAssetsCLI:
             location=Location(value="Tokyo-DataCenter-Rack01"),
         )
 
-        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with (
+            patch("moro.cli.assets.create_injector") as mock_create_injector,
+        ):
+            mock_injector = mock_create_injector.return_value
             mock_usecase = AsyncMock()
+            mock_injector.get.return_value = mock_usecase
+
             mock_usecase.search_by_id.return_value = [mock_asset]
-            mock_usecase_class.return_value = mock_usecase
 
             result = runner.invoke(assets, ["search", "--id", asset_id, "--format", "json"])
 
@@ -175,10 +199,14 @@ class TestAssetsCLI:
             location=Location(value="Tokyo-DataCenter-Rack01"),
         )
 
-        with patch("moro.cli.assets.AssetSearchUseCase") as mock_usecase_class:
+        with (
+            patch("moro.cli.assets.create_injector") as mock_create_injector,
+        ):
+            mock_injector = mock_create_injector.return_value
             mock_usecase = AsyncMock()
+            mock_injector.get.return_value = mock_usecase
+
             mock_usecase.search_by_id.return_value = [mock_asset]
-            mock_usecase_class.return_value = mock_usecase
 
             result = runner.invoke(assets, ["search", "--id", asset_id, "--format", "table"])
 
